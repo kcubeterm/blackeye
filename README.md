@@ -26,9 +26,9 @@ It has a shell script, just execute it by
 bash blackeye.sh
 ```
 Now you have lots of social media template, choose whatever you want
-After running, browse [http://localhost:8080](localhost:8080)
+After running, browse http://localhost:8080
 
-and if you want to access from outside of your localhost, forward your localhost port 3333
+and if you want to access from outside of your localhost, forward your localhost port 8080
 In this case you can use ngrok or serveo or any port forwarding services.
 ##### ngrok
 ```
